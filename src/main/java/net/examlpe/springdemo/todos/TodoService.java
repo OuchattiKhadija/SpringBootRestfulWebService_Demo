@@ -1,11 +1,14 @@
 package net.examlpe.springdemo.todos;
 
+import net.examlpe.springdemo.error.ConflictException;
+import net.examlpe.springdemo.error.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -26,17 +29,20 @@ public class TodoService {
     }
 
     public Todo getById(String id) {
- /*       try {
+    try {
             return todoRepository.findById(id).get();
         }catch (NoSuchElementException ex) {
-            //throw new ChangeSetPersister.NotFoundException(String.format("No Record with the id [%s] was found in our database", id));
+            throw new NotFoundException(String.format("No Record with the id [%s] was found in our database", id));
         }
-*/
-        return todoRepository.findById(id).get();
+
+    //    return todoRepository.findById(id).get();
     }
     public Todo save(Todo todo) {
-        return todoRepository.insert(todo);
+        if (todoRepository.findByTitle(todo.getTitle()) != null) {
+            throw new ConflictException("Another record with the same title exists");
+        }
 
+        return todoRepository.insert(todo);
 
         //if want to reurn booleean
         //return todoRepository.insert(todo) == null ? false : true

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface TodoRepository extends MongoRepository<Todo,String> {
 
- /*   Todo findByTitle(String title);
+   Todo findByTitle(String title);
 
-    List<Todo> findByUserId(String userId);*/
+    //List<Todo> findByUserId(String userId);
 
 }
